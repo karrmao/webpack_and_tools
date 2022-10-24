@@ -1,22 +1,11 @@
-// file path: calculator/index.js
+// file path: /polyfills/array-flat.js
 
-// экспортируйте sum и mult как именной export
+// здесь никакие экспорты не нужны
 
-export const sum = (a, b) => {
-  console.log('implementation for sum');
-  // ... implementation
-};
+console.log('polyfill for flat');
 
-export const mult = (a, b) => {
-  console.log('implementation for mult');
-  // ... implementation
-};
-
-// экспортируйте calc как export по умолчанию
-
-const calc = (expression) => {
-  console.log('implementation for calc');
-  // ... implementation
-};
-
-export default calc;
+window.Array.prototype.flat =
+  Array.prototype.flat ||
+  function flat() {
+    // ... implementation for older browsers
+  };
