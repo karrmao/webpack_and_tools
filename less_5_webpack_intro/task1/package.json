@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack ./src/my-index.js --mode=production",
+    "build": "webpack --mode=production",
     "watch": "webpack ./src/my-index.js --mode=development --devtool eval -w"
   },
   "author": "",
