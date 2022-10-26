@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "webpack cli",
   "scripts": {
-    "build:scripts": "webpack -p",
+    "build:scripts": "webpack --production",
     "watch:scripts": "webpack -d --watch --devtool eval-source-maps"
   },
   "keywords": [],
