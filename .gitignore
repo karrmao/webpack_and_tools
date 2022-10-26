@@ -3,3 +3,5 @@ dist
 node_modules
 .DS_Store
 .gitignore
+build
+webpack.config.js
