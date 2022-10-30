@@ -1,11 +1,10 @@
-// file path: src/index.js
+import { initHandlers } from './list/initHandlers.js';
+import { getTasksList } from './list/tasksGateaway.js';
+import { renderTasks } from './list/renderTasks.js';
+import './index.scss';
 
-import renderProfile from './profile/renderProfile';
-import './index.css';
+document.addEventListener('DOMContentLoaded', () => {
+  initHandlers();
 
-const profileData = {
-  name: 'Tom',
-  location: 'The World',
-};
-
-renderProfile(profileData);
+  getTasksList().then(tasksList => renderTasks(tasksList));
+});
