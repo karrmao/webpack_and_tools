@@ -1,34 +1,24 @@
-import { renderTasks } from './rendered.js';
-import { getItem, setItem } from './storage.js';
-import { createTask, getTasksList } from './tasksGateway.js';
+import { createTask, getTasksList } from './tasksGateaway.js';
+import { renderTasks } from './renderTasks.js';
 
-export const onCreateTask = () => {
-  const taskTitleInputElem = document.querySelector('.task-input');
+export function onCreateTask() {
+  const taskInput = document.querySelector('.task-input');
 
-  const text = taskTitleInputElem.value;
+  const text = taskInput.value;
+
   if (!text) {
     return;
   }
 
-  taskTitleInputElem.value = '';
+  taskInput.value = '';
 
   const newTask = {
     text,
     done: false,
-    createdDate: new Date().toISOString(),
+    changesDate: new Date().toISOString(),
   };
+
   createTask(newTask)
     .then(() => getTasksList())
-    .then((newTasksList) => {
-      setItem('tasksList', newTasksList);
-      renderTasks();
-    });
-};
-
-console.log('el');
-
-const arr = [1, 7, 7, 5, 4];
-const getSev = (array) => {
-  return array.filter((el) => !(el === 7));
-};
-console.log(getSev(arr));
+    .then(tasksList => renderTasks(tasksList));
+}
