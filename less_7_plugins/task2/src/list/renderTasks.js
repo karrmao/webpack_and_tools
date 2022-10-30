@@ -1,51 +1,44 @@
-import './list.scss';
+import { getItem } from './storage.js';
 
 const listElem = document.querySelector('.list');
 
-function compareTasks(a, b) {
-  if (a.done - b.done !== 0) {
-    return a.done - b.done;
-  }
+const compareTasks = (a, b) => a.done - b.done;
 
-  if (new Date(b.changesDate) < new Date(a.changesDate)) {
-    return -1;
-  }
+const createCheckbox = ({ done, id }) => {
+  const checkboxElem = document.createElement('input');
+  checkboxElem.setAttribute('type', 'checkbox');
+  checkboxElem.checked = done;
+  checkboxElem.classList.add('list-item__checkbox');
+  checkboxElem.setAttribute('data-id', id);
 
-  return 0;
-}
+  return checkboxElem;
+};
 
-function createListItem({ text, done, id }) {
-  const listItemElem = document.createElement('li');
-  listItemElem.classList.add('list__item');
-
-  const checkbox = document.createElement('input');
-  checkbox.setAttribute('type', 'checkbox');
-  checkbox.checked = done;
-  checkbox.classList.add('list__item-checkbox');
-  checkbox.dataset.id = id;
+const createListItem = ({ text, done, id }) => {
+  const listItemElement = document.createElement('li');
+  listItemElement.classList.add('list-item');
+  const checkboxElem = createCheckbox({ done, id });
+  const textElem = document.createElement('span');
 
   if (done) {
-    listItemElem.classList.add('list__item_done');
+    listItemElement.classList.add('list-item_done');
   }
 
-  const listText = document.createElement('span');
-  listText.classList.add('list__item-text');
-  listText.textContent = text;
+  textElem.textContent = text;
+  const deleteBtnElem = document.createElement('button');
+  deleteBtnElem.classList.add('list-item__delete-btn');
+  deleteBtnElem.setAttribute('data-id', id);
 
-  const deleteBtn = document.createElement('button');
-  deleteBtn.classList.add('list__item-delete-btn');
-  deleteBtn.dataset.id = id;
-  deleteBtn.textContent = '+';
+  listItemElement.append(checkboxElem, textElem, deleteBtnElem);
 
-  listItemElem.append(checkbox, listText, deleteBtn);
+  return listItemElement;
+};
 
-  return listItemElem;
-}
-
-export function renderTasks(tasksData) {
-  const tasksElems = tasksData.sort(compareTasks).map(createListItem);
+export const renderTasks = () => {
+  const tasksList = getItem('tasksList') || [];
 
   listElem.innerHTML = '';
+  const tasksElems = tasksList.sort(compareTasks).map(createListItem);
 
   listElem.append(...tasksElems);
-}
+};

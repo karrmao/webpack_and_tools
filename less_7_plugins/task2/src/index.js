@@ -1,10 +1,20 @@
-import { initHandlers } from './list/initHandlers.js';
-import { getTasksList } from './list/tasksGateaway.js';
-import { renderTasks } from './list/renderTasks.js';
+import { initTodoListHandlers } from './scripts/todoList.js';
+import { renderTasks } from './scripts/renderer.js';
+import { getTasksList } from './scripts/tasksGateway.js';
+import { setItem } from './scripts/storage.js';
 import './index.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
-  initHandlers();
-
-  getTasksList().then(tasksList => renderTasks(tasksList));
+  getTasksList().then((tasksList) => {
+    setItem('tasksList', tasksList);
+    renderTasks();
+  });
+  initTodoListHandlers();
 });
+const onStorageChange = (event) => {
+  if (event.key === 'tasksList') {
+    renderTasks();
+  }
+};
+
+window.addEventListener('storage', onStorageChange);
